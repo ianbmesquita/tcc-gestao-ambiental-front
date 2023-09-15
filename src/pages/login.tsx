@@ -1,7 +1,10 @@
+import styles from '../styles/Login.module.css'
+import { LoginForm } from "@/components/loginForm/loginForm"
+
 export default function LoginPage() {
     return (
-        <div>
-            Página de autenticação do usuário
+        <div className={styles.background}>
+            <LoginForm title="Autenticação de usuário" />
         </div>
     )
 }
