@@ -4,7 +4,7 @@ import { LoginForm } from "@/components/loginForm/loginForm"
 export default function LoginPage() {
     return (
         <div className={styles.background}>
-            <LoginForm title="Autenticação de usuário" />
+            <LoginForm title="Autenticação de Usuário" />
         </div>
     )
 }
