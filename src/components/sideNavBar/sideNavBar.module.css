@@ -3,9 +3,3 @@
     width: 300px;
     background-color: #87BF8A;
 }
-
-@media screen and (max-width: 600px) {
-    .sideNavBar {
-        width: 500px !important;
-    }
-}

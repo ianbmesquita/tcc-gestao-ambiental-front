@@ -21,7 +21,7 @@ export function SideNavBar() {
                     />
                 </Disclosure.Button>
                 <div className="p-6 h-screen bg-emerald-200 z-20 fixed top-0 -left-96 lg:w-60 lg:left-0 peer-focus:left-0 peer:transition ease-out delay-150 duration-200">
-                    <div className="flex flex-col justify-center items-center w-36">
+                    <div className="flex flex-col justify-center items-center w-40">
                         <Image src="/img/logo.png" alt="Logomarca SIGAM" />
                     </div>
                     
