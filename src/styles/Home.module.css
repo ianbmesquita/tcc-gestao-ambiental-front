@@ -4,5 +4,17 @@
     height: 100vh;
 }
 
+.mainContainer {
+    padding: 15px;
+    margin-left: 300px;
+    color: #000;
+}
+
+@media screen and (max-width: 600px) {
+    .mainContainer {
+        margin-left: 0;
+    }
+}
+
 
 

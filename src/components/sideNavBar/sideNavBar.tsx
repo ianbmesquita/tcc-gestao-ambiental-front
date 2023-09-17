@@ -25,11 +25,11 @@ export function SideNavBar() {
                         <Image src="/img/logo.png" alt="Logomarca SIGAM" />
                     </div>
                     
-                    <SideNavButton icon={<CgProfile className={iconClasses} />} text="Usuários" />
-                    <SideNavButton icon={<VscTools className={iconClasses} />} text="Ativos" />
-                    <SideNavButton icon={<GiCalendar className={iconClasses} />} text="Manutenções" />
-                    <SideNavButton icon={<FaWater className={iconClasses} />} text="Barragens" />
-                    <SideNavButton icon={<MdOutlineAssessment className={iconClasses} />} text="Avaliações" />
+                    <SideNavButton icon={<CgProfile className={iconClasses} />} text="Usuários" link="/usuarios" />
+                    <SideNavButton icon={<VscTools className={iconClasses} />} text="Ativos" link="/ativos" />
+                    <SideNavButton icon={<GiCalendar className={iconClasses} />} text="Manutenções" link="/manutencoes" />
+                    <SideNavButton icon={<FaWater className={iconClasses} />} text="Barragens" link="/barragens" />
+                    <SideNavButton icon={<MdOutlineAssessment className={iconClasses} />} text="Avaliações" link="/avaliacoes" />
                 </div>
             </Disclosure>
         </div>
