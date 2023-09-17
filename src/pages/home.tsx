@@ -1,7 +1,10 @@
+import styles from '../styles/Home.module.css'
+import { SideNavBar } from "@/components/sideNavBar/sideNavBar"
+
 export default function HomePage() {
     return (
-        <div>
-            Página inicial do SIGAM
+        <div className={styles.background}>
+            <SideNavBar />
         </div>
     )
 }
