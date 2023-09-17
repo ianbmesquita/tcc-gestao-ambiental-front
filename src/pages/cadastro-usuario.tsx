@@ -13,7 +13,7 @@ export default function CadastroUsuario() {
     
     return (
         <div>
-            <div className="text-3xl font-bold text-gray-800 mb-10 mt-10 text-center lg:text-left">
+            <div className="text-2xl lg:text-3xl font-bold text-gray-800 mb-10 mt-14 lg:mt-10 text-center lg:text-left">
                 <span className={styles.text}>Cadastro de Usuário</span> 
             </div>
             <div>
