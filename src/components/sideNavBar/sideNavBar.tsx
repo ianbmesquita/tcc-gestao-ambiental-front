@@ -14,13 +14,13 @@ export function SideNavBar() {
     return (
         <div>
             <Disclosure as="nav">
-                <Disclosure.Button className="absolute top-4 right-4 inline-flex items-center peer justify-center rounded-md p-2 text-cyan-900 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:rind-white group hover:bg-cyan-900">
+                <Disclosure.Button className="absolute top-4 right-4 inline-flex items-center peer justify-center rounded-md p-2 text-emerald-950 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:rind-white group hover:bg-emerald-950">
                     <GiHamburgerMenu 
                         className="block md:hidden h-6 w-6" 
                         aria-hidden="true" 
                     />
                 </Disclosure.Button>
-                <div className="p-6 w-1/2 h-screen bg-emerald-200 z-20 fixed top-0 -left-96 lg:w-60 lg:left-0 peer-focus:left-0 peer:transition ease-out delay-150 duration-200">
+                <div className="p-6 h-screen bg-emerald-200 z-20 fixed top-0 -left-96 lg:w-60 lg:left-0 peer-focus:left-0 peer:transition ease-out delay-150 duration-200">
                     <div className="flex flex-col justify-center items-center w-36">
                         <Image src="/img/logo.png" alt="Logomarca SIGAM" />
                     </div>
