@@ -1,20 +1,13 @@
-.background {
-    background-color: #F5F5F5;
-    width:100vw;
-    height: 100vh;
-}
-
 .mainContainer {
     padding: 15px;
     margin-left: 300px;
+    margin-right: 100px;
     color: #000;
 }
 
 @media screen and (max-width: 600px) {
     .mainContainer {
         margin-left: 0;
+        margin-right: 0;
     }
 }
-
-
-

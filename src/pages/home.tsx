@@ -1,20 +1,11 @@
-import { ReactNode } from "react"
-import { SideNavBar } from "@/components/sideNavBar/sideNavBar"
+import Layout from "@/components/layout/layout";
 
-import styles from '../styles/Home.module.css'
-import CadastroUsuario from "./cadastro-usuario";
-
-interface HomePageProps {
-    children: ReactNode;
-}
-
-export default function HomePage({ children }: HomePageProps) {
+export default function HomePage() {
     return (
-        <div className={styles.background}>
-            <SideNavBar />
-            <main className={styles.mainContainer}>
-                <CadastroUsuario />
-            </main>
+        <div>
+            <Layout>
+                <div>Seja bem vindo</div>
+            </Layout>
         </div>
     )
 }
