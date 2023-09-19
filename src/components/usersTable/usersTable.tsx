@@ -2,7 +2,7 @@ import { RiFileEditFill } from 'react-icons/ri'
 import { BsTrashFill } from 'react-icons/bs'
 
 interface User {
-    id: string;
+    id: number;
     name: string;
     login: string;
     role: string;
@@ -12,10 +12,12 @@ interface User {
 interface TableProps {
     headers: string[];
     users: User[];
+    onDelete: (id: number) => void
 }
 
-export function UsersTable({ headers, users }: TableProps) {
+export function UsersTable({ headers, users, onDelete }: TableProps) {
     const tdClass = "px-6 py-3 whitespace-nowrap"
+
     return (
         <div className="overflow-x-auto mt-8 p-3">
             <table className="min-w-full divide-y divide-gray-200">
@@ -34,6 +36,7 @@ export function UsersTable({ headers, users }: TableProps) {
                     {
                         users.map(user => (
                             <tr key={ user.id }>
+                                <td className={tdClass}>{ user.id }</td>
                                 <td className={tdClass}>{ user.name }</td>
                                 <td className={tdClass}>{ user.login }</td>
                                 <td className={tdClass}>{ user.role }</td>
@@ -42,8 +45,9 @@ export function UsersTable({ headers, users }: TableProps) {
                                     <span aria-label="Editar">
                                         <RiFileEditFill className="text-amber-400 mr-4" size={22} />
                                     </span>
+                                    
                                     <span aria-label="Excluir">
-                                        <BsTrashFill className="text-red-600 mr-4" size={22} />
+                                        <BsTrashFill className="text-red-600 mr-4" size={22} onClick={() => onDelete(user.id)} />
                                     </span>
                                 </td>
                             </tr>

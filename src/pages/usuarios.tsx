@@ -17,7 +17,7 @@ export default function ListagemUsuarios() {
 
     const router = useRouter()
     
-    const tableHeaders = ["Nome", "Login", "Role", "Status", "Ações"]
+    const tableHeaders = ["Id", "Nome", "Login", "Role", "Status", "Ações"]
 
     const [name, setName] = useState('')
     const [login, setLogin] = useState('')
@@ -27,14 +27,7 @@ export default function ListagemUsuarios() {
     useEffect(() => {
         const token = localStorage.getItem('token')
         
-        api.get("api/v1/users", {
-            headers:{
-                Authorization:  'Bearer ' + token
-            }
-        })
-        .then(response => {
-            setUsers(response.data);
-        });
+        fetchUserData(token)
     }, []);
     
     async function handleNewUser(event: React.FormEvent) {
@@ -74,7 +67,59 @@ export default function ListagemUsuarios() {
     function handleRedirectAddPage() {
         router.push("/cadastro-usuario")
     }
+
+    const fetchUserData = async (token: string | null) => {
+        api.get("api/v1/users", {
+            headers:{
+                Authorization:  'Bearer ' + token
+            }
+        })
+        .then(response => {
+            setUsers(response.data);
+        });
+    }
+
+    const handleDeleteUser = async (id: number) => {
+        const { isConfirmed } = await Swal.fire({
+            title: 'Tem certeza?',
+            text: 'Você realmente deseja excluir este usuário?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sim',
+            cancelButtonText: 'Cancelar',
+        });
     
+        if (isConfirmed) {
+            try {
+                const token = localStorage.getItem('token')
+    
+                const response = await api.delete(`api/v1/users/${id}`, {
+                    headers:{
+                        Authorization:  'Bearer ' + token
+                    }
+                });
+        
+                if (response.status === 204) {
+                    Swal.fire({
+                        title: 'Sucesso!',
+                        text: 'Usuário excluído com sucesso',
+                        icon: 'success',
+                        confirmButtonText: 'Ok'
+                    })
+    
+                    fetchUserData(token);
+                }
+            } catch (error) {
+                Swal.fire({
+                    title: 'Erro!',
+                    text: 'Ocorreu erro ao excluir usuário',
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+                })
+            }
+          }
+    }
+
     return (
         <div>
             <Layout>
@@ -113,7 +158,7 @@ export default function ListagemUsuarios() {
                         </div>
                     </form>
                 </div>
-                <UsersTable headers={ tableHeaders } users={ users } />
+                <UsersTable headers={ tableHeaders } users={ users } onDelete={ handleDeleteUser } />
                 <hr className="mt-3 mb-2" />
                 <div className="flex flex-row justify-start p-3">
                     <button className={buttonClass} onClick={handleRedirectAddPage}>
