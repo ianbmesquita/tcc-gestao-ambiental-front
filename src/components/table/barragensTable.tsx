@@ -17,9 +17,10 @@ interface TableProps {
     headers: string[];
     barragens: Barragem[];
     onDelete: (id: number) => void
+    onEdit: (id: number) => void
 }
 
-export function BarragensTable({ headers, barragens, onDelete }: TableProps) {
+export function BarragensTable({ headers, barragens, onDelete, onEdit }: TableProps) {
     const tdClass = "px-6 py-3 whitespace-nowrap"
 
     return (
@@ -51,7 +52,7 @@ export function BarragensTable({ headers, barragens, onDelete }: TableProps) {
                                 <td className={tdClass}>{ barragem.longitude }</td>
                                 <td className="px-6 py-4 whitespace-nowrap flex flex-row">
                                     <span aria-label="Editar">
-                                        <RiFileEditFill className="text-amber-400 mr-4" size={22} />
+                                        <RiFileEditFill className="text-amber-400 mr-4" size={22} onClick={() => onEdit(barragem.id)} />
                                     </span>
                                     
                                     <span aria-label="Excluir">

@@ -5,7 +5,7 @@ import { AiOutlinePlusCircle } from 'react-icons/ai'
 import Swal from 'sweetalert2'
 
 import Layout from '@/components/layout/layout'
-import { BarragensTable } from '@/components/table/barragensTable/barragensTable'
+import { BarragensTable } from '@/components/table/barragensTable'
 
 import api2 from '@/pages/api/api2'
 import styles from '../styles/CadastroUsuarios.module.css'
@@ -25,8 +25,6 @@ export default function ListagemBarragens() {
     const [municipio, setMunicipio] = useState('')
     const [estado, setEstado] = useState('')
     const [risco, setRisco] = useState('')
-    const [latitude, setLatitude] = useState('')
-    const [longitude, setLongitude] = useState('')
     const [barragens, setBarragens] = useState([])
 
     useEffect(() => {
@@ -34,48 +32,16 @@ export default function ListagemBarragens() {
         
         fetchBarragemData(token)
     }, []);
-    
-    async function handleNewBarragem(event: React.FormEvent) {1
-        event.preventDefault();
-
-        const data = {
-            status,
-            name,
-            tipo,
-            municipio,
-            estado,
-            risco,
-            latitude,
-            longitude
-        }
-
-        const token = localStorage.getItem('token')
-
-        const response = await api2.post("api/v1/barragens", data, {
-            headers:{
-                Authorization:  'Bearer ' + token
-            }
-        })
-        
-        if (response.status === 201) {
-            Swal.fire({
-                title: 'Sucesso!',
-                text: 'Barragem cadastrada com sucesso',
-                icon: 'success',
-                confirmButtonText: 'Ok'
-              })
-        } else {
-            Swal.fire({
-                title: 'Erro!',
-                text: 'Ocorreu erro ao cadastrar a barragem',
-                icon: 'error',
-                confirmButtonText: 'Ok'
-              })
-        }
-    }
 
     function handleRedirectAddPage() {
-        router.push("/cadastro-barragem")
+        router.push("/barragem/cadastro")
+    }
+
+    function handleRedirectEditPage(id: number) {
+        router.push({
+            pathname: "/barragem/edicao",
+            query: { id }
+        })
     }
 
     const fetchBarragemData = async (token: string | null) => {
@@ -86,7 +52,52 @@ export default function ListagemBarragens() {
         })
         .then(response => {
             setBarragens(response.data);
+        })
+        .catch(error => {
+            setBarragens([])
         });
+    }
+
+    async function handleSearchBarragem(event: React.FormEvent) {1
+        event.preventDefault();
+
+        const data = {
+            status,
+            name,
+            tipo,
+            municipio,
+            estado,
+            risco
+        }
+
+        const token = localStorage.getItem('token')
+
+        await api2.post("api/v1/barragens", data, {
+            params: {
+                status,
+                name,
+                tipo,
+                municipio,
+                estado,
+                risco
+            },            
+            headers:{
+                Authorization:  'Bearer ' + token
+            }
+        })
+        .then(response => {
+            if (response.status === 200) {
+                setBarragens(response.data);
+            }
+        })
+        .catch(error => {
+            Swal.fire({
+                title: 'Erro!',
+                text: 'Ocorreu erro ao buscar as barragens cadastradas',
+                icon: 'error',
+                confirmButtonText: 'Ok'
+            })
+        })
     }
 
     const handleDeleteBarragem = async (id: number) => {
@@ -137,7 +148,7 @@ export default function ListagemBarragens() {
                     <span className={styles.text}>Barragens</span> 
                 </div>
                 <div>
-                    <form className="grid grid-cols-1 md:grid-cols-3 gap-4 p-3" onSubmit={handleNewBarragem}>
+                    <form className="grid grid-cols-1 md:grid-cols-3 gap-4 p-3" onSubmit={handleSearchBarragem}>
                         <div>
                             <label htmlFor="name" className="block text-gray-700 font-semibold">Nome:</label>
                             <input className={inputClass} type="text" name="name" placeholder="Nome completo" onChange={e=>setName(e.target.value)}/>
@@ -200,7 +211,12 @@ export default function ListagemBarragens() {
                         </div>
                     </form>
                 </div>
-                <BarragensTable headers={ tableHeaders } barragens={ barragens } onDelete={ handleDeleteBarragem } />
+                <BarragensTable 
+                    headers={ tableHeaders } 
+                    barragens={ barragens } 
+                    onDelete={ handleDeleteBarragem }
+                    onEdit={ handleRedirectEditPage } 
+                />
                 <hr className="mt-3 mb-2" />
                 <div className="flex flex-row justify-start p-3">
                     <button className={buttonClass} onClick={handleRedirectAddPage}>
