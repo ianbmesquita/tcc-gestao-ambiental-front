@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState , useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Swal from 'sweetalert2'
 
@@ -14,11 +14,27 @@ export default function CadastroUsuario() {
 
     const router = useRouter()
 
+    const [authChecked, setAuthChecked] = useState(false);
     const [name, setName] = useState('')
     const [login, setLogin] = useState('')
     const [password, setPassword] = useState('')
     const [role, setRole] = useState('')
     
+    useEffect(() => {
+        const token = localStorage.getItem('token')
+        
+        if (!token) {
+            router.push("/login")
+        } else {
+            setAuthChecked(true)
+        }
+    }, []);
+
+    if (!authChecked) {
+        return null;
+    }
+
+
     async function handleNewUser(event: React.FormEvent) {
         event.preventDefault();
 

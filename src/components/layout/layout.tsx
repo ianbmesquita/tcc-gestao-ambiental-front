@@ -14,14 +14,12 @@ interface LayoutProps {
 
 function Layout({ children }: LayoutProps) {
   return (
-    <Router>
-        <div className={styles.background}>
-            <SideNavBar />
-            <MainContent> 
-                { children } 
-            </MainContent>
-        </div>
-    </Router>
+    <div className={styles.background}>
+        <SideNavBar />
+        <MainContent> 
+            { children } 
+        </MainContent>
+    </div>
   );
 }
 

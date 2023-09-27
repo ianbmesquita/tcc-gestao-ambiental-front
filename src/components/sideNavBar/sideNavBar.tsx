@@ -25,6 +25,7 @@ export function SideNavBar() {
                     <div className="flex flex-row justify-center items-center w-44">
                         <Image src="/img/logo.png" alt="Logomarca SIGAM" />
                     </div>
+
                     
                     <SideNavButton icon={<CgProfile className={iconClasses} />} text="Usuários" link="/usuarios" />
                     <SideNavButton icon={<VscTools className={iconClasses} />} text="Ativos" link="/ativos" />
