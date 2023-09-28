@@ -1,11 +1,11 @@
 // Layout.tsx
 import React, { ReactNode } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
 
-import { SideNavBar } from '../sideNavBar/sideNavBar';
+import { SideNavBar } from './sidenav/sideNavBar/sideNavBar';
 import { MainContent } from '../mainContent/mainContent';
 
 import styles from './layout.module.css'
+import { Header } from './header/header';
 
 
 interface LayoutProps {
@@ -16,6 +16,7 @@ function Layout({ children }: LayoutProps) {
   return (
     <div className={styles.background}>
         <SideNavBar />
+        <Header />
         <MainContent> 
             { children } 
         </MainContent>

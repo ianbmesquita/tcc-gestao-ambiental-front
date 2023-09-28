@@ -34,12 +34,12 @@ export default function ListagemBarragens() {
     }, []);
 
     function handleRedirectAddPage() {
-        router.push("/barragem/cadastro")
+        router.push("/barragens/cadastro")
     }
 
     function handleRedirectEditPage(id: number) {
         router.push({
-            pathname: "/barragem/edicao",
+            pathname: "/barragens/edicao",
             query: { id }
         })
     }
