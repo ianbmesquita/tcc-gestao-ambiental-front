@@ -3,7 +3,8 @@ import { GiCalendar, GiHamburgerMenu } from 'react-icons/gi'
 import { VscTools } from 'react-icons/vsc'
 import { CgProfile } from 'react-icons/cg'
 import { FaWater } from 'react-icons/fa'
-import { MdOutlineAssessment } from 'react-icons/md'
+import { FaPeopleGroup } from 'react-icons/fa6'
+import { MdOutlineAssessment, MdOutlineSensors } from 'react-icons/md'
 
 import { Image } from '../image/image'
 import { SideNavButton } from '../sideNavButton/sideNavButton'
@@ -26,11 +27,12 @@ export function SideNavBar() {
                         <Image src="/img/logo.png" alt="Logomarca SIGAM" />
                     </div>
 
-                    
                     <SideNavButton icon={<CgProfile className={iconClasses} />} text="Usuários" link="/usuarios" />
                     <SideNavButton icon={<VscTools className={iconClasses} />} text="Ativos" link="/ativos" />
                     <SideNavButton icon={<GiCalendar className={iconClasses} />} text="Manutenções" link="/manutencoes" />
                     <SideNavButton icon={<FaWater className={iconClasses} />} text="Barragens" link="/barragens" />
+                    <SideNavButton icon={<FaPeopleGroup className={iconClasses} />} text="Habitantes" link="/habitantes/listagem" />
+                    <SideNavButton icon={<MdOutlineSensors className={iconClasses} />} text="Sensores" link="/sensores/listagem" />
                     <SideNavButton icon={<MdOutlineAssessment className={iconClasses} />} text="Avaliações" link="/avaliacoes" />
                 </div>
             </Disclosure>

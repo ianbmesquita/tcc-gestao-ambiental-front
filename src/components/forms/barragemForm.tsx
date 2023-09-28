@@ -21,8 +21,6 @@ export function BarragemForm({ handleOnSubmitFunction, barragemFormData }: Barra
     const inputClass = "border border-gray-300 rounded-md text-gray-600 h-10 pl-5 pr-10 bg-white focus:outline-none mb-3 w-full lg:w-11/12"
     const selectBoxClass = "border border-gray-300 rounded-md text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none mb-3 w-full lg:w-11/12"
     const buttonClass = "bg-emerald-950 transition duration-200 text-white px-4 py-2 rounded hover:bg-emerald-700 font-semibold w-full lg:w-48"
-    
-    console.log("FD: ", barragemFormData)
 
     const [formData, setFormData] = useState<FormData>(barragemFormData);
 
@@ -35,7 +33,6 @@ export function BarragemForm({ handleOnSubmitFunction, barragemFormData }: Barra
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
-
 
     const handleOnSubmit = (e: React.FormEvent) => {
         e.preventDefault();
