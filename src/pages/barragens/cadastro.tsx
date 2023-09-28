@@ -5,7 +5,7 @@ import Swal from 'sweetalert2'
 import Layout from '@/components/layout/layout'
 
 import api2 from '@/pages/api/api2'
-import styles from '../styles/CadastroUsuarios.module.css'
+import styles from '../../styles/CadastroUsuarios.module.css'
 import { BarragemForm } from '@/components/forms/barragemForm'
 
 interface FormData {
