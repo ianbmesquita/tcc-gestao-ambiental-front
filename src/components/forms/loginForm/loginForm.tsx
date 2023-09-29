@@ -2,9 +2,9 @@ import { useState } from 'react'
 import { useRouter } from 'next/router';
 import Swal from 'sweetalert2'
 
-import { Image } from '../image/image'
-import { Input } from '../input/input'
-import { Button } from '../button/button'
+import { Image } from '../../image/image'
+import { Input } from '../../input/input'
+import { Button } from '../../button/button'
 
 import api from '@/pages/api/api'
 import styles from './loginForm.module.css'

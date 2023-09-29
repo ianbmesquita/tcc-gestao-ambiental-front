@@ -2,7 +2,7 @@
 import React, { ReactNode } from 'react';
 
 import { SideNavBar } from './sidenav/sideNavBar/sideNavBar';
-import { MainContent } from '../mainContent/mainContent';
+import { MainContent } from './mainContent/mainContent';
 
 import styles from './layout.module.css'
 import { Header } from './header/header';

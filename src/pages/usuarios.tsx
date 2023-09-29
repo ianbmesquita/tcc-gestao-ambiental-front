@@ -5,7 +5,7 @@ import { AiOutlinePlusCircle } from 'react-icons/ai'
 import Swal from 'sweetalert2'
 
 import Layout from '@/components/layout/layout'
-import { UsersTable } from '@/components/usersTable/usersTable'
+import { UsersTable } from '@/components/table/usersTable/usersTable'
 
 import api from '@/pages/api/api'
 import styles from '../styles/CadastroUsuarios.module.css'
