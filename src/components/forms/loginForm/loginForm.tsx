@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import Swal from 'sweetalert2'
 
 import { Image } from '../../image/image'
@@ -59,9 +60,9 @@ export function LoginForm({ title }: LoginProps) {
             
             <div className='flex flex-col items-center justify-center'>
                 <p className='text-emerald-900 text-center mt-8 font-semibold text-lg'>Você é habitante e deseja se cadastrar para receber alertas de incidentes?</p>
-                <a href='/habitantes/cadastro-aberto' className='mt-3 mb-3 text-cyan-700 text-lg font- underline'>
+                <Link href='/habitantes/cadastro-aberto' className='mt-3 mb-3 text-cyan-700 text-lg font- underline'>
                     Clique aqui
-                </a>
+                </Link>
             </div>
 
         </div>
