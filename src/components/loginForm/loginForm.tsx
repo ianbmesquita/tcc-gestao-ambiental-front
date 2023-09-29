@@ -50,11 +50,20 @@ export function LoginForm({ title }: LoginProps) {
         <div className={styles.card}>
             <Image src="/img/logo.png" alt="Logomarca SIGAM" />
             <h2 className={styles.title}>{ title }</h2>
+            
             <form className={styles.form} onSubmit={handleLogin}>
                 <Input type="text" placeholder="Login" onChange={e=>setLogin(e.target.value)} />
                 <Input type="password" placeholder="Senha" onChange={e=>setPassword(e.target.value)} />
                 <Button>Acessar</Button>
             </form>
+            
+            <div className='flex flex-col items-center justify-center'>
+                <p className='text-emerald-900 text-center mt-8 font-semibold text-lg'>Você é habitante e deseja se cadastrar para receber alertas de incidentes?</p>
+                <a href='/habitantes/cadastro-aberto' className='mt-3 mb-3 text-cyan-700 text-lg font- underline'>
+                    Clique aqui
+                </a>
+            </div>
+
         </div>
     )
 }

@@ -2,8 +2,6 @@ import { useState , useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Swal from 'sweetalert2'
 
-import Layout from '@/components/layout/layout'
-
 import api2 from '@/pages/api/api2'
 import styles from '../../styles/CadastroUsuarios.module.css'
 import { HabitanteForm } from '@/components/forms/habitanteForm'
@@ -29,7 +27,6 @@ interface FormData {
 export default function CadastroHabitante() {
     const router = useRouter()
 
-    const [authChecked, setAuthChecked] = useState(false);
     const [formData, setFormData] = useState<FormData>({
         nome: '',
         nascimento: '',
@@ -59,6 +56,7 @@ export default function CadastroHabitante() {
                 cep: formData.endereco.cep,
                 logradouro: formData.endereco.logradouro,
                 numero: formData.endereco.numero,
+                bairro: formData.endereco.bairro,
                 municipio: formData.endereco.municipio,
                 estado: formData.endereco.estado,
             }
@@ -78,13 +76,13 @@ export default function CadastroHabitante() {
                     confirmButtonText: 'Ok'
                   })
     
-                  router.push("/habitantes/listagem")
+                  router.push("/login")
             }
         })
         .catch(error => {
             Swal.fire({
                 title: 'Erro!',
-                text: 'Ocorreu erro ao cadastrar o habitante',
+                text: 'Ocorreu erro ao cadastrar o habitante ',
                 icon: 'error',
                 confirmButtonText: 'Ok'
               })
@@ -92,29 +90,17 @@ export default function CadastroHabitante() {
     }
 
     useEffect(() => {
-        const token = localStorage.getItem('token')
         
-        if (!token) {
-            router.push("/login")
-        } else {
-            setAuthChecked(true)
-        }
     }, []);
 
-    if (!authChecked) {
-        return null;
-    }
-
     return (
-        <div>
-            <Layout>
-                <div className="text-2xl lg:text-3xl font-bold text-gray-800 mb-10 mt-14 lg:mt-10 text-center lg:text-left">
-                    <span className={styles.text}>Cadastro de Habitante</span> 
-                </div>
-                <div>
-                    <HabitanteForm handleOnSubmitFunction={handleNewHabitante} habitanteFormData={formData} />
-                </div>
-            </Layout>  
+        <div className='p-10 min-h-screen w-screen bg-gray-100'>
+            <div className="text-2xl lg:text-3xl font-bold text-gray-800 mb-10 mt-14 lg:mt-12 text-center lg:text-left">
+                <span className={styles.text}>Cadastro de Habitante</span> 
+            </div>
+            <div>
+                <HabitanteForm handleOnSubmitFunction={handleNewHabitante} habitanteFormData={formData} />
+            </div>
         </div> 
     )
 }

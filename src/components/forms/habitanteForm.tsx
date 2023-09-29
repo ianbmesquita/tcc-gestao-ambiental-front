@@ -6,7 +6,8 @@ import Swal from 'sweetalert2';
 interface Endereco {
     cep: string;
     logradouro: string;
-    numero: string;
+    numero?: string;
+    bairro: string;
     municipio: string;
     estado: string;
 }
@@ -25,14 +26,15 @@ interface Barragem {
     nome: string;
 }
 
-interface TipoSensor {
-    valor: string;
-    tipo: string;
+interface Estado {
+    id: number;
+    sigla: string;
+    nome: string;
 }
 
 interface InfoPage {
-    tiposSensores: TipoSensor[];
     barragens: Barragem[];
+    estados: Estado[];
 }
 
 interface HabitanteFormProps {
@@ -46,34 +48,75 @@ export function HabitanteForm({ handleOnSubmitFunction, habitanteFormData }: Hab
     const buttonClass = "bg-emerald-950 transition duration-200 text-white px-4 py-2 rounded hover:bg-emerald-700 font-semibold w-full lg:w-48"
 
     const [formData, setFormData] = useState<FormData>(habitanteFormData);
+
+    const [nome, setNome] = useState('')
+    const [nascimento, setNascimento] = useState('')
+    const [telefone, setTelefone] = useState('')
+    const [email, setEmail] = useState('')
+    const [idBarragem, setIdBarragem] = useState('')
+    const [cep, setCep] = useState('')
+    const [logradouro, setLogradouro] = useState('')
+    const [numero, setNumero] = useState('')
+    const [complemento, setComplemento] = useState('')
+    const [bairro, setBairro] = useState('')
+    const [municipio, setMunicipio] = useState('')
+    const [estado, setEstado] = useState('')
     
     const [infoPage, setInfoPage] = useState<InfoPage>({
-        tiposSensores: [],
-        barragens: []
+        barragens: [],
+        estados: []
     })
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-    };
-
-    const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-    };
+    const handleCEPChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { value } = e.target;
+        setCep(value)
+        
+        if (value.length === 8) {
+            console.log(value)
+            await api2.get(`api/v1/localidade/cep/${value}`)
+            .then(response => {
+                if (response.status === 200) {
+                    const localidade = response.data
+                    
+                    setCep(localidade.cep.replace('-', ''))
+                    setLogradouro(localidade.logradouro)
+                    setBairro(localidade.bairro)
+                    setMunicipio(localidade.cidade)
+                    setEstado(localidade.uf)
+                }
+            })
+            .catch(error => console.log(error))
+        }
+    }
 
 
     const handleOnSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        handleOnSubmitFunction(formData);
+
+        const habitante : FormData = {
+            nome,
+            nascimento,
+            telefone,
+            email,
+            idBarragem,
+            endereco: {
+                cep,
+                logradouro,
+                numero,
+                bairro,
+                municipio,
+                estado
+            }
+        }
+
+        console.log("Antes de sair do form")
+        console.log(habitante)
+
+        handleOnSubmitFunction(habitante)
     };
 
     async function fetchHabitanteDataPage(token: string | null) {
-        await api2.get("api/v1/habitantes/info", {
-            headers:{
-                Authorization:  'Bearer ' + token
-            }
-        })
+        await api2.get("api/v1/habitantes/info")
         .then(response => {
             if (response.status === 200) {
                 console.log(response.data)
@@ -106,31 +149,49 @@ export function HabitanteForm({ handleOnSubmitFunction, habitanteFormData }: Hab
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-3">
                     <div>
                         <label htmlFor="nome" className="block text-gray-700 font-semibold">Nome:</label>
-                        <input className={inputClass} type="text" name="nome" placeholder="Nome do habitante" onChange={handleInputChange}/>
+                        <input className={inputClass} type="text" name="nome" placeholder="Nome do habitante" 
+                            onChange={e=>setNome(e.target.value)}
+                            value={nome}    
+                        />
                     </div>
 
                     <div>
                         <label htmlFor="nascimento" className="block text-gray-700 font-semibold">Nascimento:</label>
-                        <input className={inputClass} type="date" name="nascimento" placeholder="Data de nascimento" onChange={handleInputChange}/>
+                        <input className={inputClass} type="date" name="nascimento" placeholder="Data de nascimento" 
+                            onChange={e=>setNascimento(e.target.value)}
+                            value={nascimento}    
+                        />
                     </div>
 
                     <div>
-                        <label htmlFor="nascimento" className="block text-gray-700 font-semibold">Telefone:</label>
-                        <input className={inputClass} type="text" name="telefone" placeholder="Telefone do habitante" onChange={handleInputChange}/>
+                        <label htmlFor="telefone" className="block text-gray-700 font-semibold">Telefone:</label>
+                        <input className={inputClass} type="text" name="telefone" placeholder="Telefone do habitante" 
+                            onChange={e=>setTelefone(e.target.value)}
+                            value={telefone}    
+                        />
                     </div>
 
                     <div>
                         <label htmlFor="email" className="block text-gray-700 font-semibold">Email:</label>
-                        <input className={inputClass} type="email" name="email" placeholder="Email do habitante" onChange={handleInputChange}/>
+                        <input className={inputClass} type="email" name="email" placeholder="Email do habitante" 
+                            onChange={e=>setEmail(e.target.value)}
+                            value={email}    
+                        />
                     </div>
 
                     <div>
-                        <label htmlFor="barragem" className="block text-gray-700 font-semibold">Barragem:</label>
-                        <select className={selectBoxClass} name="barragem" onChange={handleSelectChange}>
+                        <label htmlFor="barragem" className="block text-gray-700 font-semibold">Barragem próxima:</label>
+                        <select className={selectBoxClass} name="barragem" onChange={e=>setIdBarragem(e.target.value)}>
                             <option>Selecione</option>
-                            <option value="CONCRETO">Concreto</option>
-                            <option value="ENROCAMENTO">Enrocamento</option>
-                            <option value="ATERRO">Aterro</option>
+                            { 
+                                infoPage.barragens.map(barragem => {
+                                    return (
+                                        <option key={barragem.id} value={barragem.id}>
+                                            {barragem.nome}
+                                        </option>
+                                    )
+                                }) 
+                            }
                         </select>
                     </div>
                 </div>
@@ -143,33 +204,69 @@ export function HabitanteForm({ handleOnSubmitFunction, habitanteFormData }: Hab
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-3">
                     <div>
                         <label htmlFor="cep" className="block text-gray-700 font-semibold">CEP:</label>
-                        <input className={inputClass} type="text" name="cep" placeholder="CEP do endereço" onChange={handleInputChange}/>
+                        <input className={inputClass} type="text" name="cep" placeholder="CEP do endereço" 
+                            onChange={handleCEPChange}
+                            value={cep} 
+                        />
                     </div>
 
                     <div>
                         <label htmlFor="logradouro" className="block text-gray-700 font-semibold">Logradouro:</label>
-                        <input className={inputClass} type="text" name="logradouro" placeholder="Logradouro do endereço" onChange={handleInputChange}/>
+                        <input className={inputClass} type="text" name="logradouro" placeholder="Logradouro do endereço" 
+                            onChange={e=>setLogradouro(e.target.value)}
+                            value={logradouro} 
+                        />
                     </div>
 
                     <div>
                         <label htmlFor="numero" className="block text-gray-700 font-semibold">Número:</label>
-                        <input className={inputClass} type="text" name="numero" placeholder="Número do endereço" onChange={handleInputChange}/>
+                        <input className={inputClass} type="text" name="numero" placeholder="Número do endereço"
+                            onChange={e=>setNumero(e.target.value)}
+                            value={numero}
+                        />
                     </div>
 
                     <div>
-                        <label htmlFor="estado" className="block text-gray-700 font-semibold">Estado:</label>
-                        <select className={selectBoxClass} name="estado" onChange={handleSelectChange}>
-                            <option>Selecione</option>
-                            <option value="CONCRETO">Concreto</option>
-                            <option value="ENROCAMENTO">Enrocamento</option>
-                            <option value="ATERRO">Aterro</option>
-                        </select>
+                        <label htmlFor="complemento" className="block text-gray-700 font-semibold">Complemento:</label>
+                        <input className={inputClass} type="text" name="numero" placeholder="Complemento do endereço"
+                            onChange={e=>setComplemento(e.target.value)}
+                            value={complemento}
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor="bairro" className="block text-gray-700 font-semibold">Bairro:</label>
+                        <input className={inputClass} type="text" name="bairro" placeholder="Nome do bairro" 
+                            onChange={e=>setBairro(e.target.value)}
+                            value={bairro} 
+                        />
                     </div>
 
                     <div>
                         <label htmlFor="municipio" className="block text-gray-700 font-semibold">Municipio:</label>
-                        <input className={inputClass} type="text" name="municipio" placeholder="Nome do município" onChange={handleInputChange}/>
+                        <input className={inputClass} type="text" name="municipio" placeholder="Nome do município" 
+                            onChange={e=>setMunicipio(e.target.value)}
+                            value={municipio} 
+                        />
                     </div>
+
+                    <div>
+                        <label htmlFor="estado" className="block text-gray-700 font-semibold">Estado:</label>
+                        <select className={selectBoxClass} name="estado" onChange={e=>setEstado(e.target.value)}>
+                            <option>Selecione</option>
+                            { 
+                                infoPage.estados.map(estado => {
+                                    return (
+                                        <option key={estado.sigla} value={estado.sigla}>
+                                            {estado.nome}
+                                        </option>
+                                    )
+                                }) 
+                            }
+                        </select>
+                    </div>
+
+                    <br />
 
                     <div className="md:col-span-2">
                         <button className={buttonClass}>
