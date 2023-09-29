@@ -24,6 +24,7 @@ export default function ListagemSensores() {
     const [tipo, setTipo] = useState('')
     const [idBarragem, setIdBarragem] = useState('')
     const [sensores, setSensores] = useState([])
+    const [mostrarFiltros, setMostrarFiltros] = useState(false)
 
     useEffect(() => {
         const token = localStorage.getItem('token')
@@ -135,61 +136,70 @@ export default function ListagemSensores() {
           }
     }
 
+    const toggleShowFilters = () => {
+        setMostrarFiltros(!mostrarFiltros)
+    }
+
     return (
         <div>
             <Layout>
                 <div className="text-2xl lg:text-3xl font-bold text-gray-800 mb-10 mt-14 lg:mt-10 text-center lg:text-left">
                     <span className={styles.text}>Sensores</span> 
                 </div>
-                <div>
-                    <form className="grid grid-cols-1 md:grid-cols-3 gap-4 p-3" onSubmit={handleSearchSensor}>
-                        <div>
-                            <label htmlFor="nome" className="block text-gray-700 font-semibold">Nome:</label>
-                            <input className={inputClass} type="text" name="nome" placeholder="Nome do sensor" onChange={e=>setNome(e.target.value)}/>
-                        </div>
+                <div className="pl-3 cursor-pointer text-emerald-900 underline font-semibold" onClick={toggleShowFilters}> { mostrarFiltros ? 'Ocultar Filtros' : 'Mostrar Filtros' }</div>
+                
+                { mostrarFiltros && (
+                    <div>
+                        <form className="grid grid-cols-1 md:grid-cols-3 gap-4 p-3" onSubmit={handleSearchSensor}>
+                            <div>
+                                <label htmlFor="nome" className="block text-gray-700 font-semibold">Nome:</label>
+                                <input className={inputClass} type="text" name="nome" placeholder="Nome do sensor" onChange={e=>setNome(e.target.value)}/>
+                            </div>
 
-                        <div>
-                            <label htmlFor="fabricante" className="block text-gray-700 font-semibold">Fabricante:</label>
-                            <input className={inputClass} type="text" name="fabricante" placeholder="Fabricante do sensor" onChange={e=>setFabricante(e.target.value)}/>
-                        </div>
+                            <div>
+                                <label htmlFor="fabricante" className="block text-gray-700 font-semibold">Fabricante:</label>
+                                <input className={inputClass} type="text" name="fabricante" placeholder="Fabricante do sensor" onChange={e=>setFabricante(e.target.value)}/>
+                            </div>
 
-                        <div>
-                            <label htmlFor="status" className="block text-gray-700 font-semibold">Tipo:</label>
-                            <select className={selectBoxClass} name="status" onChange={e=>setTipo(e.target.value)}>
-                                <option>Selecione</option>
-                                <option value="SENSOR_DE_PRESSAO">Sensor de Pressão</option>
-                                <option value="SENSOR_DE_DESLIZAMENTO">Sensor de Deslizamento</option>
-                                <option value="SENSOR_DE_NIVEL_DE_AGUA">Sensor de Nível de Água</option>
-                                <option value="SENSOR_DE_DEFORMACAO">Sensor de Deformação</option>
-                                <option value="SENSOR_DE_TEMPERATURA">Sensor de Temperatura</option>
-                                <option value="SENSOR_DE_VIBRACAO">Sensor de Vibração</option>
-                                <option value="SENSOR_DE_GEOLOCALIZACAO">Sensor de Geolocalização</option>
-                                <option value="SENSOR_DE_GASES">Sensor de Gases</option>
-                                <option value="SENSOR_DE_RADAR">Sensor de Radar</option>
-                                <option value="OUTRO">Outro</option>
-                            </select>
-                        </div>
+                            <div>
+                                <label htmlFor="status" className="block text-gray-700 font-semibold">Tipo:</label>
+                                <select className={selectBoxClass} name="status" onChange={e=>setTipo(e.target.value)}>
+                                    <option>Selecione</option>
+                                    <option value="SENSOR_DE_PRESSAO">Sensor de Pressão</option>
+                                    <option value="SENSOR_DE_DESLIZAMENTO">Sensor de Deslizamento</option>
+                                    <option value="SENSOR_DE_NIVEL_DE_AGUA">Sensor de Nível de Água</option>
+                                    <option value="SENSOR_DE_DEFORMACAO">Sensor de Deformação</option>
+                                    <option value="SENSOR_DE_TEMPERATURA">Sensor de Temperatura</option>
+                                    <option value="SENSOR_DE_VIBRACAO">Sensor de Vibração</option>
+                                    <option value="SENSOR_DE_GEOLOCALIZACAO">Sensor de Geolocalização</option>
+                                    <option value="SENSOR_DE_GASES">Sensor de Gases</option>
+                                    <option value="SENSOR_DE_RADAR">Sensor de Radar</option>
+                                    <option value="OUTRO">Outro</option>
+                                </select>
+                            </div>
 
-                        <div>
-                            <label htmlFor="barragem" className="block text-gray-700 font-semibold">Barragem:</label>
-                            <select className={selectBoxClass} name="barragem" onChange={e=>setIdBarragem(e.target.value)}>
-                                <option>Selecione</option>
-                                <option value="CONCRETO">Concreto</option>
-                                <option value="ENROCAMENTO">Enrocamento</option>
-                                <option value="ATERRO">Aterro</option>
-                            </select>
-                        </div>
-                        <br />
-                        <div className="md:col-span-2">
-                            <button className={buttonClass}>
-                                <span className="flex flex-row items-center justify-center">
-                                    <BiSearchAlt className="mr-1" size={20} />
-                                    Consultar
-                                </span>
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                            <div>
+                                <label htmlFor="barragem" className="block text-gray-700 font-semibold">Barragem:</label>
+                                <select className={selectBoxClass} name="barragem" onChange={e=>setIdBarragem(e.target.value)}>
+                                    <option>Selecione</option>
+                                    <option value="CONCRETO">Concreto</option>
+                                    <option value="ENROCAMENTO">Enrocamento</option>
+                                    <option value="ATERRO">Aterro</option>
+                                </select>
+                            </div>
+                            <br />
+                            <div className="md:col-span-2">
+                                <button className={buttonClass}>
+                                    <span className="flex flex-row items-center justify-center">
+                                        <BiSearchAlt className="mr-1" size={20} />
+                                        Consultar
+                                    </span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                ) }
+                
                 <SensoresTable 
                     headers={ tableHeaders } 
                     sensores={ sensores } 

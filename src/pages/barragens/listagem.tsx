@@ -8,7 +8,7 @@ import Layout from '@/components/layout/layout'
 import { BarragensTable } from '@/components/table/barragensTable'
 
 import api2 from '@/pages/api/api2'
-import styles from '../styles/CadastroUsuarios.module.css'
+import styles from '../../styles/CadastroUsuarios.module.css'
 
 export default function ListagemBarragens() {
     const inputClass = "border border-gray-300 rounded-md text-gray-600 h-10 pl-5 pr-10 bg-white focus:outline-none mb-3 w-full"
@@ -26,6 +26,7 @@ export default function ListagemBarragens() {
     const [estado, setEstado] = useState('')
     const [risco, setRisco] = useState('')
     const [barragens, setBarragens] = useState([])
+    const [mostrarFiltros, setMostrarFiltros] = useState(false)
 
     useEffect(() => {
         const token = localStorage.getItem('token')
@@ -140,6 +141,10 @@ export default function ListagemBarragens() {
             }
           }
     }
+    
+    const toggleShowFilters = () => {
+        setMostrarFiltros(!mostrarFiltros)
+    }
 
     return (
         <div>
@@ -147,70 +152,77 @@ export default function ListagemBarragens() {
                 <div className="text-2xl lg:text-3xl font-bold text-gray-800 mb-10 mt-14 lg:mt-10 text-center lg:text-left">
                     <span className={styles.text}>Barragens</span> 
                 </div>
-                <div>
-                    <form className="grid grid-cols-1 md:grid-cols-3 gap-4 p-3" onSubmit={handleSearchBarragem}>
-                        <div>
-                            <label htmlFor="name" className="block text-gray-700 font-semibold">Nome:</label>
-                            <input className={inputClass} type="text" name="name" placeholder="Nome completo" onChange={e=>setName(e.target.value)}/>
-                        </div>
-
-                        <div>
-                            <label htmlFor="login" className="block text-gray-700 font-semibold">Status:</label>
-                            <select className={selectBoxClass} name="status" onChange={e=>setStatus(e.target.value)}>
-                                <option>Selecione</option>
-                                <option value="NORMAL">Normal</option>
-                                <option value="ATENCAO">Atenção</option>
-                                <option value="CRITICO">Crítico</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label htmlFor="role" className="block text-gray-700 font-semibold">Tipo:</label>
-                            <select className={selectBoxClass} name="tipo" onChange={e=>setTipo(e.target.value)}>
-                                <option>Selecione</option>
-                                <option value="CONCRETO">Concreto</option>
-                                <option value="ENROCAMENTO">Enrocamento</option>
-                                <option value="ATERRO">Aterro</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label htmlFor="role" className="block text-gray-700 font-semibold">Risco:</label>
-                            <select className={selectBoxClass} name="risco" onChange={e=>setRisco(e.target.value)}>
-                                <option>Selecione</option>
-                                <option value="BAIXO">Concreto</option>
-                                <option value="MEDIO">Enrocamento</option>
-                                <option value="ALTO">Aterro</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label htmlFor="role" className="block text-gray-700 font-semibold">Estado:</label>
-                            <select className={selectBoxClass} name="estado" onChange={e=>setEstado(e.target.value)}>
-                                <option>Selecione</option>
-                                <option value="AM">AM</option>
-                                <option value="DF">DF</option>
-                                <option value="MG">MG</option>
-                                <option value="RJ">RJ</option>
-                                <option value="SP">SP</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label htmlFor="name" className="block text-gray-700 font-semibold">Município:</label>
-                            <input className={inputClass} type="text" name="municipio" placeholder="Município" onChange={e=>setMunicipio(e.target.value)}/>
-                        </div>
-
-                        <div className="md:col-span-2">
-                            <button className={buttonClass}>
-                                <span className="flex flex-row items-center justify-center">
-                                    <BiSearchAlt className="mr-1" size={20} />
-                                    Consultar
-                                </span>
-                            </button>
-                        </div>
-                    </form>
+                <div className="pl-3 cursor-pointer text-emerald-900 underline font-semibold" onClick={toggleShowFilters}> 
+                    { mostrarFiltros ? 'Ocultar Filtros' : 'Mostrar Filtros' }
                 </div>
+
+                { mostrarFiltros && (
+                    <div>
+                        <form className="grid grid-cols-1 md:grid-cols-3 gap-4 p-3" onSubmit={handleSearchBarragem}>
+                            <div>
+                                <label htmlFor="name" className="block text-gray-700 font-semibold">Nome:</label>
+                                <input className={inputClass} type="text" name="name" placeholder="Nome completo" onChange={e=>setName(e.target.value)}/>
+                            </div>
+
+                            <div>
+                                <label htmlFor="login" className="block text-gray-700 font-semibold">Status:</label>
+                                <select className={selectBoxClass} name="status" onChange={e=>setStatus(e.target.value)}>
+                                    <option>Selecione</option>
+                                    <option value="NORMAL">Normal</option>
+                                    <option value="ATENCAO">Atenção</option>
+                                    <option value="CRITICO">Crítico</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label htmlFor="role" className="block text-gray-700 font-semibold">Tipo:</label>
+                                <select className={selectBoxClass} name="tipo" onChange={e=>setTipo(e.target.value)}>
+                                    <option>Selecione</option>
+                                    <option value="CONCRETO">Concreto</option>
+                                    <option value="ENROCAMENTO">Enrocamento</option>
+                                    <option value="ATERRO">Aterro</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label htmlFor="role" className="block text-gray-700 font-semibold">Risco:</label>
+                                <select className={selectBoxClass} name="risco" onChange={e=>setRisco(e.target.value)}>
+                                    <option>Selecione</option>
+                                    <option value="BAIXO">Concreto</option>
+                                    <option value="MEDIO">Enrocamento</option>
+                                    <option value="ALTO">Aterro</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label htmlFor="role" className="block text-gray-700 font-semibold">Estado:</label>
+                                <select className={selectBoxClass} name="estado" onChange={e=>setEstado(e.target.value)}>
+                                    <option>Selecione</option>
+                                    <option value="AM">AM</option>
+                                    <option value="DF">DF</option>
+                                    <option value="MG">MG</option>
+                                    <option value="RJ">RJ</option>
+                                    <option value="SP">SP</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label htmlFor="name" className="block text-gray-700 font-semibold">Município:</label>
+                                <input className={inputClass} type="text" name="municipio" placeholder="Município" onChange={e=>setMunicipio(e.target.value)}/>
+                            </div>
+
+                            <div className="md:col-span-2">
+                                <button className={buttonClass}>
+                                    <span className="flex flex-row items-center justify-center">
+                                        <BiSearchAlt className="mr-1" size={20} />
+                                        Consultar
+                                    </span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                )}
+
                 <BarragensTable 
                     headers={ tableHeaders } 
                     barragens={ barragens } 

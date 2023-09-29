@@ -26,6 +26,7 @@ export default function ListagemHabitantes() {
     const [municipio, setMunicipio] = useState('')
     const [estado, setEstado] = useState('')
     const [habitantes, setHabitantes] = useState([])
+    const [mostrarFiltros, setMostrarFiltros] = useState(false)
 
     useEffect(() => {
         const token = localStorage.getItem('token')
@@ -133,64 +134,72 @@ export default function ListagemHabitantes() {
           }
     }
 
+    const toggleShowFilters = () => {
+        setMostrarFiltros(!mostrarFiltros)
+    }
+
     return (
         <div>
             <Layout>
                 <div className="text-2xl lg:text-3xl font-bold text-gray-800 mb-10 mt-14 lg:mt-10 text-center lg:text-left">
                     <span className={styles.text}>Habitantes</span> 
                 </div>
-                <div>
-                    <form className="grid grid-cols-1 md:grid-cols-3 gap-4 p-3" onSubmit={handleSearchHabitante}>
-                        <div>
-                            <label htmlFor="nome" className="block text-gray-700 font-semibold">Nome:</label>
-                            <input className={inputClass} type="text" name="nome" placeholder="Nome do habitante" onChange={e=>setNome(e.target.value)}/>
-                        </div>
+                <div className="pl-3 cursor-pointer text-emerald-900 underline font-semibold" onClick={toggleShowFilters}> { mostrarFiltros ? 'Ocultar Filtros' : 'Mostrar Filtros' }</div>
+                { mostrarFiltros && (
+                    <div>
+                        <form className="grid grid-cols-1 md:grid-cols-3 gap-4 p-3" onSubmit={handleSearchHabitante}>
+                            <div>
+                                <label htmlFor="nome" className="block text-gray-700 font-semibold">Nome:</label>
+                                <input className={inputClass} type="text" name="nome" placeholder="Nome do habitante" onChange={e=>setNome(e.target.value)}/>
+                            </div>
 
-                        <div>
-                            <label htmlFor="nascimento" className="block text-gray-700 font-semibold">Telefone:</label>
-                            <input className={inputClass} type="text" name="telefone" placeholder="Telefone do habitante" onChange={e=>setTelefone(e.target.value)}/>
-                        </div>
+                            <div>
+                                <label htmlFor="nascimento" className="block text-gray-700 font-semibold">Telefone:</label>
+                                <input className={inputClass} type="text" name="telefone" placeholder="Telefone do habitante" onChange={e=>setTelefone(e.target.value)}/>
+                            </div>
 
-                        <div>
-                            <label htmlFor="email" className="block text-gray-700 font-semibold">Email:</label>
-                            <input className={inputClass} type="email" name="email" placeholder="Email do habitante" onChange={e=>setEmail(e.target.value)}/>
-                        </div>
+                            <div>
+                                <label htmlFor="email" className="block text-gray-700 font-semibold">Email:</label>
+                                <input className={inputClass} type="email" name="email" placeholder="Email do habitante" onChange={e=>setEmail(e.target.value)}/>
+                            </div>
 
-                        <div>
-                            <label htmlFor="barragem" className="block text-gray-700 font-semibold">Barragem:</label>
-                            <select className={selectBoxClass} name="barragem" onChange={e=>setIdBarragem(e.target.value)}>
-                                <option>Selecione</option>
-                                <option value="CONCRETO">Concreto</option>
-                                <option value="ENROCAMENTO">Enrocamento</option>
-                                <option value="ATERRO">Aterro</option>
-                            </select>
-                        </div>
+                            <div>
+                                <label htmlFor="barragem" className="block text-gray-700 font-semibold">Barragem:</label>
+                                <select className={selectBoxClass} name="barragem" onChange={e=>setIdBarragem(e.target.value)}>
+                                    <option>Selecione</option>
+                                    <option value="CONCRETO">Concreto</option>
+                                    <option value="ENROCAMENTO">Enrocamento</option>
+                                    <option value="ATERRO">Aterro</option>
+                                </select>
+                            </div>
 
-                        <div>
-                            <label htmlFor="estado" className="block text-gray-700 font-semibold">Estado:</label>
-                            <select className={selectBoxClass} name="estado" onChange={e=>setEstado(e.target.value)}>
-                                <option>Selecione</option>
-                                <option value="CONCRETO">Concreto</option>
-                                <option value="ENROCAMENTO">Enrocamento</option>
-                                <option value="ATERRO">Aterro</option>
-                            </select>
-                        </div>
+                            <div>
+                                <label htmlFor="estado" className="block text-gray-700 font-semibold">Estado:</label>
+                                <select className={selectBoxClass} name="estado" onChange={e=>setEstado(e.target.value)}>
+                                    <option>Selecione</option>
+                                    <option value="CONCRETO">Concreto</option>
+                                    <option value="ENROCAMENTO">Enrocamento</option>
+                                    <option value="ATERRO">Aterro</option>
+                                </select>
+                            </div>
 
-                        <div>
-                            <label htmlFor="municipio" className="block text-gray-700 font-semibold">Municipio:</label>
-                            <input className={inputClass} type="municipio" name="email" placeholder="Nome do município" onChange={e=>setMunicipio(e.target.value)}/>
-                        </div>
+                            <div>
+                                <label htmlFor="municipio" className="block text-gray-700 font-semibold">Municipio:</label>
+                                <input className={inputClass} type="municipio" name="email" placeholder="Nome do município" onChange={e=>setMunicipio(e.target.value)}/>
+                            </div>
 
-                        <div className="md:col-span-2">
-                            <button className={buttonClass}>
-                                <span className="flex flex-row items-center justify-center">
-                                    <BiSearchAlt className="mr-1" size={20} />
-                                    Consultar
-                                </span>
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                            <div className="md:col-span-2">
+                                <button className={buttonClass}>
+                                    <span className="flex flex-row items-center justify-center">
+                                        <BiSearchAlt className="mr-1" size={20} />
+                                        Consultar
+                                    </span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                )}
+                
                 <HabitantesTable 
                     headers={ tableHeaders } 
                     habitantes={ habitantes } 
