@@ -60,6 +60,7 @@ export default function CadastroHabitante() {
                 logradouro: formData.endereco.logradouro,
                 numero: formData.endereco.numero,
                 municipio: formData.endereco.municipio,
+                bairro: formData.endereco.bairro,
                 estado: formData.endereco.estado,
             }
         }

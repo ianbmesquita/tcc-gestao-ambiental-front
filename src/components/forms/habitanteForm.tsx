@@ -109,8 +109,6 @@ export function HabitanteForm({ handleOnSubmitFunction, habitanteFormData }: Hab
             }
         }
 
-        console.log("Antes de sair do form")
-        console.log(habitante)
 
         handleOnSubmitFunction(habitante)
     };

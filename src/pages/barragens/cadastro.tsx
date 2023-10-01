@@ -63,7 +63,7 @@ export default function CadastroBarragem() {
                     confirmButtonText: 'Ok'
                   })
     
-                  router.push("/barragens")
+                  router.push("/barragens/listagem")
             }
         })
         .catch(error => {

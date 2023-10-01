@@ -23,15 +23,13 @@ export function SideNavBar() {
     const [itensMenu, setItensMenu] = useState<ItensMenu[]>([])
 
     const menuUsuarios = { icon: <CgProfile className={iconClasses} />, text: 'Usuários', link:'/usuarios' }
-    const menuAtivos = { icon: <VscTools className={iconClasses} />, text: 'Ativos', link:'/ativos/listagem' }
-    const menuManutencoes = { icon: <GiCalendar className={iconClasses} />, text: 'Manutenções', link:'/manutencoes/listagem' }
     const menuBarragens = { icon: <FaWater className={iconClasses} />, text: 'Barragens', link:'/barragens/listagem' }
     const menuHabitantes = { icon: <FaPeopleGroup className={iconClasses} />, text: 'Habitantes', link:'/habitantes/listagem' }
     const menuSensores = { icon: <MdOutlineSensors className={iconClasses} />, text: 'Sensores', link:'/sensores/listagem' }
     const menuAvaliacoes = { icon: <MdOutlineAssessment className={iconClasses} />, text: 'Avaliações', link:'/avaliacoes/listagem' }
     
-    const menuAdmin = [menuUsuarios, menuAtivos, menuManutencoes, menuBarragens, menuHabitantes, menuSensores, menuAvaliacoes]
-    const menuUser = [menuAtivos, menuManutencoes, menuBarragens, menuSensores]
+    const menuAdmin = [menuUsuarios, menuBarragens, menuHabitantes, menuSensores, menuAvaliacoes]
+    const menuUser = [menuBarragens, menuSensores]
     const menuOutsoursed = [menuAvaliacoes]
 
     useEffect(() => {

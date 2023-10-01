@@ -11,20 +11,32 @@ interface FormData {
     origem: string;
 }
 
-// interface Barragem {
-//     id: number;
-//     nome: string;
-// }
+interface Barragem {
+    id: number;
+    nome: string;
+}
 
-// interface TipoSensor {
-//     valor: string;
-//     tipo: string;
-// }
+interface Risco {
+    risco: string;
+    valor: string;
+}
 
-// interface InfoPage {
-//     tiposSensores: TipoSensor[];
-//     barragens: Barragem[];
-// }
+interface Incidente {
+    tipo: string;
+    valor: string;
+}
+
+interface Origem {
+    tipo: string;
+    valor: string;
+}
+
+interface InfoPage {
+    barragens: Barragem[];
+    riscos: Risco[];
+    incidentes: Incidente[];
+    origens: Origem[];
+}
 
 interface AvaliacaoFormProps {
     handleOnSubmitFunction: (data: FormData) => void;
@@ -38,10 +50,12 @@ export function AvaliacaoForm({ handleOnSubmitFunction, avaliacaoFormData }: Ava
 
     const [formData, setFormData] = useState<FormData>(avaliacaoFormData);
     
-    // const [infoPage, setInfoPage] = useState<InfoPage>({
-    //     tiposSensores: [],
-    //     barragens: []
-    // })
+    const [infoPage, setInfoPage] = useState<InfoPage>({
+        barragens: [],
+        riscos: [],
+        incidentes: [],
+        origens: []
+    })
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -67,8 +81,7 @@ export function AvaliacaoForm({ handleOnSubmitFunction, avaliacaoFormData }: Ava
         })
         .then(response => {
             if (response.status === 200) {
-                // setInfoPage(response.data)
-                console.log(response.data)
+                setInfoPage(response.data)
             }
         })
         .catch(error => {
@@ -98,9 +111,15 @@ export function AvaliacaoForm({ handleOnSubmitFunction, avaliacaoFormData }: Ava
                     <label htmlFor="idBarragem" className="block text-gray-700 font-semibold">Barragem:</label>
                     <select className={selectBoxClass} name="idBarragem" onChange={handleSelectChange}>
                         <option>Selecione</option>
-                        <option value="CONCRETO">Concreto</option>
-                        <option value="ENROCAMENTO">Enrocamento</option>
-                        <option value="ATERRO">Aterro</option>
+                        { 
+                            infoPage.barragens.map(barragem => {
+                                return (
+                                    <option key={barragem.id} value={barragem.id}>
+                                        {barragem.nome}
+                                    </option>
+                                )
+                            }) 
+                        }
                     </select>
                 </div>
 
@@ -108,10 +127,15 @@ export function AvaliacaoForm({ handleOnSubmitFunction, avaliacaoFormData }: Ava
                     <label htmlFor="alerta" className="block text-gray-700 font-semibold">Risco:</label>
                     <select className={selectBoxClass} name="alerta" onChange={handleSelectChange}>
                         <option>Selecione</option>
-                        <option value="SENSOR_DE_PRESSAO">Sensor de Pressão</option>
-                        <option value="SENSOR_DE_DESLIZAMENTO">Sensor de Deslizamento</option>
-                        <option value="SENSOR_DE_NIVEL_DE_AGUA">Sensor de Nível de Água</option>
-                        <option value="OUTRO">Outro</option>
+                        { 
+                            infoPage.incidentes.map(incidente => {
+                                return (
+                                    <option key={incidente.valor} value={incidente.valor}>
+                                        {incidente.tipo}
+                                    </option>
+                                )
+                            }) 
+                        }
                     </select>
                 </div>
 
@@ -119,9 +143,15 @@ export function AvaliacaoForm({ handleOnSubmitFunction, avaliacaoFormData }: Ava
                     <label htmlFor="grauRisco" className="block text-gray-700 font-semibold">Grau:</label>
                     <select className={selectBoxClass} name="grauRisco" onChange={handleSelectChange}>
                         <option>Selecione</option>
-                        <option value="CONCRETO">Concreto</option>
-                        <option value="ENROCAMENTO">Enrocamento</option>
-                        <option value="ATERRO">Aterro</option>
+                        { 
+                            infoPage.riscos.map(risco => {
+                                return (
+                                    <option key={risco.valor} value={risco.valor}>
+                                        {risco.risco}
+                                    </option>
+                                )
+                            }) 
+                        }
                     </select>
                 </div>
 
@@ -129,9 +159,15 @@ export function AvaliacaoForm({ handleOnSubmitFunction, avaliacaoFormData }: Ava
                     <label htmlFor="origem" className="block text-gray-700 font-semibold">Origem:</label>
                     <select className={selectBoxClass} name="origem" onChange={handleSelectChange}>
                         <option>Selecione</option>
-                        <option value="CONCRETO">Concreto</option>
-                        <option value="ENROCAMENTO">Enrocamento</option>
-                        <option value="ATERRO">Aterro</option>
+                        { 
+                            infoPage.origens.map(origem => {
+                                return (
+                                    <option key={origem.valor} value={origem.valor}>
+                                        {origem.tipo}
+                                    </option>
+                                )
+                            }) 
+                        }
                     </select>
                 </div>
 
